@@ -1,7 +1,7 @@
 module Main exposing (init, main)
 
 import Browser
-import Models exposing (Model)
+import Models exposing (Model, initialModel)
 import Msgs exposing (Msg(..))
 import Update exposing (update)
 import View exposing (view)
@@ -9,7 +9,7 @@ import View exposing (view)
 
 init : ( Model, Cmd Msg )
 init =
-    ( True, Cmd.none )
+    ( initialModel, Cmd.none )
 
 
 

@@ -11,8 +11,5 @@ import Msgs exposing (Msg(..))
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        Expand ->
-            ( True, Cmd.none )
-
-        Collapse ->
-            ( False, Cmd.none )
+        NoOp ->
+            ( model, Cmd.none )

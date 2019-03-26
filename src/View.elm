@@ -3,7 +3,7 @@ module View exposing (view)
 import Html exposing (Html, button, div, h1, img, li, text, ul)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
-import Models exposing (Item, Model, Slide)
+import Models exposing (Item, Model, Slide, getFromListWithID)
 import Msgs exposing (Msg(..))
 
 
@@ -15,9 +15,13 @@ view : Model -> Html Msg
 view model =
     div []
         [ nav model.slides
+        , div []
+            [ model.currentSlide
+                |> String.fromInt
+                |> text
+            ]
         , model.slides
-            |> List.head
-            |> Maybe.withDefault (Slide 0 "Title" [ "A", "B" ])
+            |> getFromListWithID model.currentSlide
             |> currentSlide
         ]
 

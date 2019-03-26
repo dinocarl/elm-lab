@@ -13,6 +13,12 @@ import Msgs exposing (Msg(..))
 
 view : Model -> Html Msg
 view model =
+    let
+        slideData =
+            model.slides
+                |> List.filter (\i -> i.id == model.currentSlide)
+                |> List.head
+    in
     div []
         [ nav model.slides
         , div []
@@ -20,10 +26,18 @@ view model =
                 |> String.fromInt
                 |> text
             ]
-        , model.slides
-            |> getFromListWithID model.currentSlide
-            |> currentSlide
+        , slideOrEmpty slideData
         ]
+
+
+slideOrEmpty : Maybe Slide -> Html Msg
+slideOrEmpty maybeSlide =
+    case maybeSlide of
+        Nothing ->
+            h1 [] [ text "No Slide" ]
+
+        Just item ->
+            currentSlide item
 
 
 nav : List Slide -> Html Msg

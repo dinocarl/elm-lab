@@ -1,4 +1,4 @@
-module Models exposing (Item, Model, Slide, SlideID, fallbackSlide, getFromListWithID, initialModel)
+module Models exposing (Item, Model, Slide, SlideID, initialModel)
 
 ---- MODEL ----
 
@@ -7,11 +7,6 @@ type alias Model =
     { slides : List Slide
     , currentSlide : SlideID
     }
-
-
-fallbackSlide : Slide
-fallbackSlide =
-    Slide 0 "Title" [ "a", "b" ]
 
 
 initialModel : Model
@@ -39,16 +34,3 @@ type alias Slide =
     , title : String
     , items : List Item
     }
-
-
-getFromListWithID id xs =
-    let
-        x =
-            List.filter (\i -> i.id == id) xs
-    in
-    case List.head x of
-        Nothing ->
-            fallbackSlide
-
-        Just item ->
-            item

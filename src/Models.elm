@@ -1,4 +1,4 @@
-module Models exposing (Item, Model, Slide, SlideID, initialModel)
+module Models exposing (Item, Model, Slide, SlideID, getSlideByID, initialModel)
 
 ---- MODEL ----
 
@@ -34,3 +34,10 @@ type alias Slide =
     , title : String
     , items : List Item
     }
+
+
+getSlideByID : SlideID -> List Slide -> Maybe Slide
+getSlideByID id xs =
+    xs
+        |> List.filter (\i -> i.id == id)
+        |> List.head

@@ -3,7 +3,7 @@ module View exposing (view)
 import Html exposing (Html, button, div, h1, img, li, text, ul)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
-import Models exposing (Item, Model, Slide, getFromListWithID)
+import Models exposing (Item, Model, Slide, getSlideByID)
 import Msgs exposing (Msg(..))
 
 
@@ -15,23 +15,16 @@ view : Model -> Html Msg
 view model =
     let
         slideData =
-            model.slides
-                |> List.filter (\i -> i.id == model.currentSlide)
-                |> List.head
+            getSlideByID model.currentSlide model.slides
     in
     div []
         [ nav model.slides
-        , div []
-            [ model.currentSlide
-                |> String.fromInt
-                |> text
-            ]
-        , slideOrEmpty slideData
+        , slideOrFallback slideData
         ]
 
 
-slideOrEmpty : Maybe Slide -> Html Msg
-slideOrEmpty maybeSlide =
+slideOrFallback : Maybe Slide -> Html Msg
+slideOrFallback maybeSlide =
     case maybeSlide of
         Nothing ->
             h1 [] [ text "No Slide" ]

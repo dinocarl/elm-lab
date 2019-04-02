@@ -1,9 +1,9 @@
 module View exposing (view)
 
-import Html exposing (Html, button, div, h1, img, li, text, ul)
+import Html exposing (Html, article, aside, button, div, h1, img, li, text, ul)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
-import Models exposing (Item, Model, Slide, getSlideByID)
+import Models exposing (Item, Model, Slide, SlideID, getSlideByID)
 import Msgs exposing (Msg(..))
 
 
@@ -17,9 +17,37 @@ view model =
         slideData =
             getSlideByID model.currentSlide model.slides
     in
-    div []
-        [ nav model.slides
-        , slideOrFallback slideData
+    div [ class "pres" ]
+        [ aside [ class "nav" ]
+            [ prevBtn model.currentSlide
+            , nextBtn model.currentSlide
+            , nav model.slides
+            ]
+        , article [ class "content" ]
+            [ slideOrFallback slideData
+            ]
+        ]
+
+
+nextBtn : SlideID -> Html Msg
+nextBtn slideID =
+    button
+        [ onClick NextSlide
+        ]
+        [ slideID
+            |> (+) 1
+            |> String.fromInt
+            |> (++) "Next -> "
+            |> text
+        ]
+
+
+prevBtn : SlideID -> Html Msg
+prevBtn slideID =
+    button
+        [ onClick PrevSlide
+        ]
+        [ text "Prev"
         ]
 
 
@@ -50,7 +78,7 @@ bullet item =
 
 currentSlide : Slide -> Html Msg
 currentSlide slide =
-    div []
+    div [ class "currentslide" ]
         [ h1 [ class "title" ] [ text slide.title ]
         , ul [ class "bullet-points" ] (List.map bullet slide.items)
         ]
